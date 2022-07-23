@@ -31,10 +31,7 @@ export default function AuthContextProvider(props) {
                 // User is signed in, see docs for a list of available properties
                  setUser(user);
                 //   const uid = user.uid;
-                // console.log(user)
-                // console.log("user is signed in"
-                // const person =user.uid
-                // console.log(person)
+                
                 dispatch({ type: 'Login' })
                 // ...
             } else {

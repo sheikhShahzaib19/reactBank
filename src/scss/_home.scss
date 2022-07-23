@@ -1,0 +1,99 @@
+.wrapper{
+position: relative;
+}
+.navbar{
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.card_set{
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 0 5px 0.5px grey;
+    border-radius: 5px;
+}
+.icon{
+    font-size: 32px;
+}
+.field{
+    border: none;
+    border-bottom: 1px solid black;
+    // width: 100%;    
+}
+.field::placeholder{
+    font-size: 16px;
+}
+.option_bar{
+    margin-left: 12px;
+    border: none;
+    border-bottom: 1px solid black;
+    width: 86%;
+    outline: none;
+}
+.btn1{
+    float: right;
+}
+.fr{
+    float: right;
+}
+.btn-detail {
+    border: 0 !important;
+    padding: 0 !important;
+    background-color: initial !important;
+    color: #039be5!important;
+    cursor: pointer!important;
+    // font-size: 16px;
+    font-family: raleway !important;}
+    .margin_l{
+        margin-left: 20px;
+    }
+    .wrapper1{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    // horizontal center
+    align-items: center;
+    // vertical center
+}
+@media only screen and (max-width:675px){
+.margin_b{
+    margin-bottom: 10px;
+}
+.button1{
+    line-height: 17px;
+    width: 113px !important;
+}
+.setting{
+    margin-top: 45px !important;
+}
+.screen{
+    margin-top: 130px;   
+}
+.screen1{
+    margin-top: 27px !important;
+}
+}
+.offcanvas-start{
+    width: 300px !important;
+}
+@media only screen and (max-width:800px) {
+    .btn-nav{
+        display: block !important;
+    }
+    .logo{
+        // display: none;
+        text-align: center !important;
+}
+}
+
+// @media screen and (max-width: 40em){
+//     .table-responsive thead {
+//         display: block;
+// }
+// .table-responsive td.pivoted {
+//     border: none!important;
+//     border-bottom: 1px solid #000;
+//     position: relative;
+//     padding-left: 50%!important;
+//     text-align: left!important;
+// }
+// }

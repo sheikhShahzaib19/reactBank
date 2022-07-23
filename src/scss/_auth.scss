@@ -1,0 +1,19 @@
+$primaryAuthColor:#6d9ac4;
+$buttonAuthColor:#ee5784;
+
+.auth{
+    background-color:$primaryAuthColor ;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .btn1{
+       background-color: $buttonAuthColor;
+       color: white !important;
+       font-weight: 300;
+       
+    }
+    .card{
+        border: none !important;
+    }
+}

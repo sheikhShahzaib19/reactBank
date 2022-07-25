@@ -1,34 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { collection, getDocs, doc, setDoc, deleteDoc, addDoc, writeBatch, serverTimestamp } from 'firebase/firestore/lite'
+import { collection, getDocs, doc, setDoc, deleteDoc, addDoc, writeBatch, serverTimestamp,where,query } from 'firebase/firestore/lite'
 import { firestore } from 'config/firebase'
 import { toast } from 'react-toastify'
 import dayjs from 'dayjs'
 import { AuthContext } from 'context/AuthContext'
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 
 export default function ReadAccount() {
 
   const { user } = useContext(AuthContext);
-
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [item, setItem] = useState({});
-  const [currentDate, setCurrentDate] = useState("")
   const [deposit, setDeposit] = useState("")
   const [withdraw, setWithdraw] = useState("")
   const [description, setDescription] = useState("")
-  // const [modal,setModal]=useState([]);
 
   const fetchDocuments = async () => {
     setLoading(true)
     let array = [];
     try {
-      const querysnapShoot = await getDocs(collection(firestore, 'accounts'))
+
+      const q = query(collection(firestore, "accounts"), where("createdBy.uid", "==", user.uid));
+      const querysnapShoot = await getDocs(q)
       querysnapShoot.forEach((doc) => {
         // console.log(doc.data())
         let data = doc.data()
         data.id = doc.id;
-        // console.log(data)
         array.push(data);
       })
       setProducts(array);
@@ -43,32 +42,22 @@ export default function ReadAccount() {
   }
   useEffect(() => {
     fetchDocuments();
-
-    setInterval(() => {
-      setCurrentDate(dayjs().format("M/D/YYYY"));
-    })
-
   }, [])
 
   const handle_modal = async (product) => {
     setItem(product);
   }
-
+  const dateFromObject = (seconds) => {
+    let date = new Date(seconds * 1000)
+    return dayjs(date).format("DD/MM/YYYY")
+  }
   const handleDeposit = async (e) => {
 
     let amountToBeDeposit = Number(deposit)
 
     if (amountToBeDeposit < 1) {
 
-      toast.error("Please Enter Correct Amount ", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      window.notify("Please Enter Correct Amount ",'error')
       return;
     }
 
@@ -117,11 +106,9 @@ export default function ReadAccount() {
       console.log("completed")
     } catch (err) {
       console.error(err)
-    }
-    
+    }    
     setDeposit("")
   }
-
 
   const handleWithdraw = async (e) => {
 
@@ -162,7 +149,6 @@ export default function ReadAccount() {
       dateCreated: serverTimestamp()
     }
     console.log(transactionData)
-    // return
 
     const batch = writeBatch(firestore);
 
@@ -181,7 +167,6 @@ export default function ReadAccount() {
           return { ...item, initialDep: newAmount }
         return doc;
       })
-
       setProducts(newDocuments)
       console.log("completed")
     } catch (err) {
@@ -190,7 +175,6 @@ export default function ReadAccount() {
     
     setWithdraw("")
   }
-
 
   const handleDelete = async (item) => {
     console.log(item);
@@ -221,41 +205,42 @@ export default function ReadAccount() {
                   <>
                     {products.length > 0
                       ?
-                      <div className="table-responsive table-striped">
-                        <table className="table table-light ">
-                          <thead>
-                            <tr>
-                              <th scope="col">Branch code</th>
-                              <th scope="col">Account</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">CNIC</th>
-                              <th scope="col">Registered</th>
-                              <th scope="col">Type</th>
-                              <th scope="col">Balance</th>
-                            </tr>
-                          </thead>
-                          <tbody>
+                      <div className="card p-3 p-md-4 p-lg-3">
+                        <Table className="table table-light ">
+                          <Thead>
+                            <Tr>
+                              <Th>Branch code</Th>
+                              <Th>Account</Th>
+                              <Th>Name</Th>
+                              <Th>CNIC</Th>
+                              <Th>Registered</Th>
+                              <Th>Type</Th>
+                              <Th>Balance</Th>
+                            </Tr>
+                          </Thead>
+                          <Tbody>
                             {
                               products.map((product, ind) => {
                                 return (
-                                  <tr key={ind}>
-                                    <td className='pivoted'>{product.branch}</td>
-                                    <td className='pivoted'>
+                                  <Tr key={ind}>
+                                    <Td>{product.branch}</Td>
+                                    <Td>
                                       <button className='btn-detail' data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handle_modal(product) }}>
                                         {product.accountNum}
                                       </button>
-                                    </td>
-                                    <td className='pivoted'>{product.firstname}</td>
-                                    <td className='pivoted'>{product.cnic}</td>
-                                    <td className='pivoted'>{currentDate}</td>
-                                    <td className='pivoted'>{product.accountType}</td>
-                                    <td className='pivoted'>{product.initialDep}</td>
-                                  </tr>
+                                    </Td>
+                                    <Td>{product.firstname}</Td>
+                                    <Td>{product.cnic}</Td>
+                                    <Td>{dateFromObject(product.dateCreated.seconds)}</Td>
+                                    
+                                    <Td>{product.accountType}</Td>
+                                    <Td>{product.initialDep}</Td>
+                                  </Tr>
                                 )
                               })
                             }
-                          </tbody>
-                        </table>
+                          </Tbody>
+                        </Table>
                        </div>
                       :
                       <div className="text-center">
@@ -319,7 +304,7 @@ export default function ReadAccount() {
                   <p>Registered</p>
                 </div>
                 <div className="col-6 col-md-6">
-                  <p> {currentDate} </p>
+                  <p> {dateFromObject(item?.dateCreated?.seconds)} </p>
                 </div>
               </div>
               <div className="row">
@@ -425,89 +410,3 @@ export default function ReadAccount() {
     </>
   )
 }
-
-
-// const handleDeposit = async () => {
-//   setLoading(true)
-//   if (deposit < 1) {
-
-//     toast.error("Please Enter Correct Amount ", {
-//       position: "top-right",
-//       autoClose: 5000,
-//       hideProgressBar: false,
-//       closeOnClick: true,
-//       pauseOnHover: true,
-//       draggable: true,
-//       progress: undefined,
-//     });
-//     setLoading(false)
-//     return;
-//   }
-//   setDeposit("0");
-//   const batch = writeBatch(firestore);
-//   const withdrawRef = doc(firestore, "accounts", modal.id);
-//   batch.update(withdrawRef, { catageory: "Debit" });
-//   if (deposit >= Number(500)) {
-//     let newDepositAmount = Number(modal.intialdeposit) + Number(deposit);
-//     const docRef = await addDoc(collection(firestore, "transaction"), modal)
-//     console.log(docRef)
-//     // batch writes for update many transactions
-//     // Get a new write batch
-//     const batch = writeBatch(firestore);
-//     const depositRef = doc(firestore, "accounts", modal.id);
-//     await batch.update(depositRef, { "intialdeposit": newDepositAmount, catageory: "Debit" });
-//     // Commit the batch
-//     await batch.commit();
-//     let newPriceDocuments = table.map((doc) => {
-//       if (doc.id === modal.id)
-//         return { ...modal, intialdeposit: newDepositAmount }
-//       return doc;
-//     })
-//     setTable(newPriceDocuments)
-//     toast.success(`Your Amount ${deposit} Has Been Deposit Successfully !`, {
-//       position: "top-right",
-//       autoClose: 5000,
-//       hideProgressBar: false,
-//       closeOnClick: true,
-//       pauseOnHover: true,
-//       draggable: true,
-//       progress: undefined,
-//     });
-//     setLoading(false)
-//   }
-//   else {
-//     toast.error("You cannot deposit less than 500 Rs.", {
-//       position: "top-right",
-//       autoClose: 5000,
-//       hideProgressBar: false,
-//       closeOnClick: true,
-//       pauseOnHover: true,
-//       draggable: true,
-//       progress: undefined,
-//     });
-//     setLoading(false)
-//     return
-//   }
-
-//   setLoading(false)
-//   setDeposit("0")
-// }
-
-// const handleDeposit = async () => {
-//   let newAmount = Number(item.initialDep) + Number(deposit);
-//   item.initialDep = newAmount;
-
-//   // Get a new write batch
-//   const batch = writeBatch(firestore);
-
-//   // Set the value of 'NYC'
-//   const nycRef =  doc(firestore, "accounts", item.id);
-//   batch.set(nycRef, { initialDep: deposit });
-
-//   // Update the population of 'SF'
-//   const sfRef = doc(firestore, "accounts", item.id);
-//   batch.update(sfRef, { "initialDep": deposit });
-
-//   // Commit the batch
-//   await batch.commit();
-// }

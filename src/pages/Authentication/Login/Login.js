@@ -44,7 +44,6 @@ export default function Login() {
         let user = userCredential.user;
         console.log(user)
         // setstate(initialState);
-        // setisProcessing(false)
         navigate('/dashboard');
       })
       .catch((error) => {
@@ -71,7 +70,6 @@ export default function Login() {
             <Link to="/" className="btn btn-success my-2" >
               <i class="fa-solid fa-house mx-2"></i>Home</Link>
           </div>
-
           <div className="row">
             <div className="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
               <div className="card p-3 p-sm-3 p-md-3 p-lg-4">

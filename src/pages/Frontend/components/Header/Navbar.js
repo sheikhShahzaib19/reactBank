@@ -24,7 +24,7 @@ export default function Navbar() {
   }
   return (
     <div className="wrapper">
-      <img src={p1} alt="bank image" className='img-fluid image' />
+      <img src={p1} alt="bank image" className='img-fluid image'/>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
         <div className="container">
           <Link className="navbar-brand" to="/">Navbar</Link>

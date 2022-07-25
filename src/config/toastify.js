@@ -3,7 +3,6 @@ import { toast } from "react-toastify"
 window.getRandomId = () => {
     return Math.random().toString(36).slice(2)
 }
-
 window.notify = (msg, type) => {
     let option = {
         position: "top-right",

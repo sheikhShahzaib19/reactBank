@@ -3,19 +3,14 @@ import { Link } from 'react-router-dom'
 import { collection, getDocs, serverTimestamp } from 'firebase/firestore/lite'
 import { firestore } from 'config/firebase'
 import dayjs from 'dayjs'
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 
 export default function Transactions() {
   const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [item, setItem] = useState({});
-  const [account, setAccount] = useState({});
-  const [currentDate, setCurrentDate] = useState("")
   dateCreated: serverTimestamp();
-  // const [currentTime, setCurrentTime] = useState("")
 
-//   const dateCreated1 = new Date(dateCreated*1000);
-
-// const dateCreated=dateCreated1
   const fetchDocuments = async () => {
     setLoading(true)
     let array = [];
@@ -42,13 +37,20 @@ export default function Transactions() {
   useEffect(() => {
     fetchDocuments();
 
-    // setInterval(() => {
-    //   setCurrentDate(dayjs().format("M/D/YYYY"));
-    // })
   }, [])
 
   const handle_modal = async (product) => {
     setItem(product);
+  }
+
+  const dateFromObject = (seconds) => {
+    let date = new Date(seconds * 1000)
+    return dayjs(date).format("DD/MM/YYYY")
+  }
+
+  const timeFromObject = (seconds) => {
+    let date = new Date(seconds * 1000)
+    return dayjs(date).format("hh:mm:ss A")
   }
   return (
     <>
@@ -67,43 +69,38 @@ export default function Transactions() {
                   <>
                     {transactions.length > 0
                       ?
-                      <div className="table-responsive table-striped">
-                        <table className="table table-light">
-                          <thead>
-                            <tr>
-                              <th>Transaction Id</th>
-                              <th>Time</th>
-                              <th>Date</th>
-                              <th>Account</th>
-                              <th>Type</th>
-                              <th>Amount</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              transactions.map((transaction, ind) => {
-                                return (
-                                  <tr key={ind}>
-
-                                    <td>
-                                      <button className='btn-detail' data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handle_modal(transaction) }}>
-                                        {transaction.id}
-                                      </button>
-                                    </td>
-                                    {/* <td>{transaction.dateCreated.date()}</td> */} 
-                                     <td></td>
-                                    <td></td>
-                                    <td>{transaction.account.accountNum}</td>
-                                    <td>{transaction.type}</td>
-                                    <td>{transaction.amount}</td>
-
-                                  </tr>
-                                )
-                              })
-                            }
-                          </tbody>
-                        </table>
-                      </div>
+                      <Table className="table table-light">
+                        <Thead>
+                          <Tr>
+                            <Th>Transaction Id</Th>
+                            <Th>Time</Th>
+                            <Th>Date</Th>
+                            <Th>Account</Th>
+                            <Th>Type</Th>
+                            <Th>Amount</Th>
+                          </Tr>
+                        </Thead>
+                        <tbody>
+                          {
+                            transactions.map((transaction, ind) => {
+                              return (
+                                <Tr key={ind}>
+                                  <Td>
+                                    <button className='btn-detail' data-bs-toggle="modal" data-bs-target="#exampleModal" onClick={() => { handle_modal(transaction) }}>
+                                      {transaction.id}
+                                    </button>
+                                  </Td>
+                                  <Td>{timeFromObject(transaction?.dateCreated?.seconds)}</Td>
+                                  <Td>{dateFromObject(transaction?.dateCreated?.seconds)}</Td>
+                                  <Td>{transaction.account.accountNum}</Td>
+                                  <Td>{transaction.type}</Td>
+                                  <Td>{transaction.amount}</Td>
+                                </Tr>
+                              )
+                            })
+                          }
+                        </tbody>
+                      </Table>
                       :
                       <div className="text-center">
                         There is no data that is available to show.
@@ -137,7 +134,7 @@ export default function Transactions() {
                   <p>Account#</p>
                 </div>
                 <div className="col-6 col-md-6">
-                  {/* <p>{item.account.accountNum}</p> */}
+                  <p>{item?.account?.accountNum}</p>
                 </div>
               </div>
               <div className="row">
@@ -145,7 +142,7 @@ export default function Transactions() {
                   <p>Account Holder Name</p>
                 </div>
                 <div className="col-5 col-md-6">
-                  {/* <p>{item.account.firstname}</p> */}
+                  <p>{item?.account?.firstname}</p>
                 </div>
               </div>
               <div className="row">
@@ -153,7 +150,7 @@ export default function Transactions() {
                   <p>Transaction Date</p>
                 </div>
                 <div className="col-6 col-md-6">
-                  {item.firstname}
+                  {dateFromObject(item?.dateCreated?.seconds)}
                 </div>
               </div>
               <div className="row">
@@ -161,7 +158,7 @@ export default function Transactions() {
                   <p>Transaction Time</p>
                 </div>
                 <div className="col-6 col-md-6">
-
+                  asd
                 </div>
               </div>
               <div className="row">

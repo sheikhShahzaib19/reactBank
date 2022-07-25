@@ -6,8 +6,6 @@ export const AuthContext = createContext()
 
 const initialState = { isAuthenticated: false }
 
-
-
 const reducer = ((state, action) => {
 
     switch (action.type) {
@@ -30,8 +28,7 @@ export default function AuthContextProvider(props) {
             if (user) {
                 // User is signed in, see docs for a list of available properties
                  setUser(user);
-                //   const uid = user.uid;
-                
+                //   const uid = user.uid;                
                 dispatch({ type: 'Login' })
                 // ...
             } else {

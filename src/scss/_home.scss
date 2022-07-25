@@ -6,6 +6,12 @@ position: relative;
     top: 0;
     width: 100%;
 }
+.image{
+    min-height: 100vh !important;
+}
+.card{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
 .card_set{
     border: 1px solid #d3d3d3;
     box-shadow: 0 0 5px 0.5px grey;
@@ -35,6 +41,25 @@ position: relative;
 .fr{
     float: right;
 }
+.list{
+    list-style-type: none;
+}
+.list li a{
+    text-decoration: none;
+    color:black;
+}
+.list li{
+    padding: 10px 0px !important;
+}
+.size{
+    font-size: 17px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.size1{
+    font-size: 17px;
+}
 .btn-detail {
     border: 0 !important;
     padding: 0 !important;
@@ -60,7 +85,7 @@ position: relative;
 }
 .button1{
     line-height: 17px;
-    width: 113px !important;
+    width: 156px !important;
 }
 .setting{
     margin-top: 45px !important;
@@ -75,10 +100,16 @@ position: relative;
 .offcanvas-start{
     width: 300px !important;
 }
+.debitAndCredit {
+    padding: 0 7.5px;
+    border-radius: 5px;
+    background-color: #d3d3d3;
+    color: #fff;
+    font-size: 10px}
 @media only screen and (max-width:800px) {
-    .btn-nav{
-        display: block !important;
-    }
+    // .btn-nav{
+    //     display: block !important;
+    // }
     .logo{
         // display: none;
         text-align: center !important;

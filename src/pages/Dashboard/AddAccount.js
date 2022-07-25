@@ -1,116 +1,83 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 // import { Link } from 'react-router-dom'
 import { doc, setDoc,serverTimestamp } from "firebase/firestore/lite"
 import { firestore } from 'config/firebase';
-import { toast } from 'react-toastify'
+import {AuthContext} from 'context/AuthContext'
 
-const initialState={firstname:'',cnic:'',accountNum:'',accountType:'',branch:'',initialDep:'',dateCreated:serverTimestamp()}
+const initialState={firstname:'',cnic:'',accountNum:'',accountType:'',branch:'',initialDep:''}
  
 export default function AddAccount() {
-
+    const {user} =useContext(AuthContext)
     const [state,setState]=useState(initialState);
+    const [isprocessing,setIsprocessing]=useState(false);
+
+    let randomId = Math.random().toString(36).slice(2);
+    // console.log(randomId);
 
     const handleChange = (e) => {
             setState({ ...state, [e.target.name]: e.target.value })
+         
     };
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log(state);
+        // console.log(state);
         const {firstname,cnic,accountNum,accountType,branch,initialDep}=state
         if (firstname === "") {
           window.notify('Your Name field is empty that is not acceptable.',"error")
             return;
           }
           if (cnic.length !== 13) {
-            toast.error('Your CNIC number is not a CNIC Number .', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
+            window.notify('Your CNIC number is not a CNIC Number.',"error");
             return;
           }
           if (branch > 99) {
-            toast.error('You can only use 99 branches.', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
+            window.notify('You can only use 99 branches.','error');
             return;
           }
           if (accountNum.length !== 9) {
-            toast.error('Your Account number is not a account number.', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
+            window.notify('Your Account number is not a account number.', 'error');
             return;
           }
           if (accountType === "") {
-            toast.error('Your have not choose any currency .', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
+            window.notify('Your have not choose any currency .', 'error');
             return;
           }
           if (initialDep < 500) {
-            toast.error('Your transactions is less than 500 .', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-            });
+            window.notify('Your transactions is less than 500 .', 'error');
             return;
           }
-    
-    let randomId = Math.random().toString(36).slice(2);
-          console.log(randomId);
-         try {
-             await setDoc(doc(firestore,"accounts",randomId),state);
-             toast.success('Your document is saved in database ', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              });
-             console.log("Document written with ID: ", randomId)
-           } catch (e) {
-
-             console.log("Error adding document: ", e);
-           }
-        //    setState(initialState);
+    let formData={firstname,cnic,accountNum,accountType,branch,initialDep}
+    formData.dateCreated=serverTimestamp()
+    formData.id=randomId;
+    formData.createdBy={
+        email:user.email,
+        uid:user.uid
     }
+    createDocument(formData);
+}
+    const createDocument=async(formData)=>{
+        // console.log(formData);
+    setIsprocessing(true)
+         try {
+             await setDoc(doc(firestore,"accounts",formData.id),formData);
+             window.notify('Your Account is Created Successfully','success' );
+            } 
+        catch (e) {
+                console.log("Error adding document: ", e);
+                window.notify('Your Account is not Created','error' );
+           }
+           setIsprocessing(false)
+}
+
+    // }
     return (
         <div className="wrapper1">
             <div className="container">
                 <div className="row">
-
                     <div className="col-12 col-md-10 offset-md-1 ">
                         <div className="p-2 text-center bg-primary text-white">
-                            <h3>Enter Account Details Below</h3>
+                            <h3>Enter Account Details</h3>
                             <h6>All fields are required</h6>
                         </div>
 
@@ -167,8 +134,19 @@ export default function AddAccount() {
                                     </div>
                                 </div>
                             </div>
+
+                            <button className='btn btn-danger mt-4 btn1'>
+                                {!isprocessing?
+                                'Create an account'
+                                : <div className="spinner-border spinner-border-sm"></div>  }
+                                </button>
+                            {/* <>
+                            {!isprocessing
+                            ?
                             <button className='btn btn-danger mt-4 btn1'>Create an account</button>
-                        </form>
+                            :<div className="spinner spinner-grow"></div>
+                            }</> */}
+                            </form>
                     </div>
                 </div>
             </div>

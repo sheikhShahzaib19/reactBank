@@ -18,10 +18,11 @@ export default function ForgotPassword() {
   }
   const HandleReset = (e) => {
     const { email } = state;
+    console.log(state);
     sendPasswordResetEmail(auth, email)
       .then(() => {
         setState(intialState);
-        toast.primary('Verification Email Has Been Sent!', {
+        toast.success('Verification Email Has Been Sent!', {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -41,6 +42,7 @@ export default function ForgotPassword() {
           draggable: true,
           progress: undefined,
         });
+        console.error(error);
       });
   }
   return (

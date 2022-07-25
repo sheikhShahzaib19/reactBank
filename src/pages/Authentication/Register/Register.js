@@ -37,11 +37,7 @@ export default function Register() {
       console.error(error);
       setisProcessing(false)
     })
-    // .finally(()=>{
-    //   setisProcessing(false)
-    // })
   }
-
   const setDocument= async(user)=>{
     try{
       await setDoc(doc(firestore, "users", user.uid), {

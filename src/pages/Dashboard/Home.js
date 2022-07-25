@@ -59,7 +59,7 @@ export default function Home() {
         <div className="container">
           <div className="row pb-4 pb-lg-0">
             <div className="col-12 col-md-5 offset-md-1">
-              <div className="card p-3 p-sm-3 p-lg-4 card_set screen">
+              <div className="card p-3 p-sm-3 padd card_set screen">
                 <h5 className='text-center'> <i class="fa-solid fa-user me-2"></i>Accounts</h5>
                 <hr />
                 <div className=" text-center">
@@ -78,7 +78,7 @@ export default function Home() {
               </div>
             </div>
             <div className="col-12 col-md-5 ">
-              <div className="card p-3 p-sm-3 p-md-3 p-lg-3 card_set screen1">
+              <div className="card p-3 p-sm-3 p-md-3 p-lg-4 card_set screen1">
                 <h5 className='text-center'><i class="fa-solid fa-money-bill me-2"></i>Transactions</h5>
                 <hr />
                 <div className="text-center">

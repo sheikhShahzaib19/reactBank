@@ -27,7 +27,7 @@ export default function Navbar() {
       <img src={p1} alt="bank image" className='img-fluid image'/>
       <nav className="navbar navbar-expand-lg bg-dark navbar-dark">
         <div className="container">
-          <Link className="navbar-brand" to="/">Navbar</Link>
+          <Link className="navbar-brand" to="/">My Bank</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>

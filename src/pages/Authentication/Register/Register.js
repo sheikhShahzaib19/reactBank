@@ -22,6 +22,15 @@ export default function Register() {
     console.log(state)
 
     let {email,password} = state;
+    if(email === ''){
+      window.notify('Please enter your email','error')
+      return
+    }
+    if(password === ''){
+      window.notify('Please enter your password','error')
+      return
+    }
+
     setisProcessing(true);
    
     createUserWithEmailAndPassword(auth,email,password)
@@ -72,7 +81,7 @@ export default function Register() {
                   </div>
                   <div className="row mb-3">
                     <div className="col">
-                      <label htmlFor="">Password</label>
+                      <label className='mb-2'>Password</label>
                       <input type="password" placeholder='Enter your password' name='password' className='form-control' onChange={handleChange}
                       />
                     </div>
@@ -91,7 +100,7 @@ export default function Register() {
                   </form>
                   <div className="row">
                     <div className="col">
-                      <p className="mb-0 text-center">Already have an account ? <Link to='/authentication/login'>Login</Link></p>
+                      <p className="mb-1 text-center">Already have an account ? <Link to='/authentication/login'>Login</Link></p>
                     </div>
                   </div>
                 

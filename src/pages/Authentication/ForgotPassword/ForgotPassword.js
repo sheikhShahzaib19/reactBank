@@ -18,7 +18,11 @@ export default function ForgotPassword() {
   }
   const HandleReset = (e) => {
     const { email } = state;
-    console.log(state);
+    if(email === ''){
+      window.notify('Please enter your email','error')
+      return
+    }
+    // console.log(state);
     sendPasswordResetEmail(auth, email)
       .then(() => {
         setState(intialState);
@@ -49,10 +53,6 @@ export default function ForgotPassword() {
     <div className="auth">
       {/* <div className='d-flex justify-content-center align-items-center min-vh-100'> */}
       <div className="container mt-5 py-xxl-5">
-        <div className=" text-center">
-          <Link to="/" className="btn btn-success my-2" >
-            <i class="fa-solid fa-house mx-2"></i> Home </Link>
-        </div>
         <div className="row">
           <div className="col-sm-12 col-md-6 offset-md-3 p-sm-3 shadow rounded">
             <div className="card p-3 p-sm-3 p-md-3 p-lg-4">

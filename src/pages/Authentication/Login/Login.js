@@ -27,6 +27,15 @@ export default function Login() {
     e.preventDefault();
 
     let { email, password } = state;
+    
+    if(email === ''){
+      window.notify('Please enter your email','error')
+      return
+    }
+    if(password === ''){
+      window.notify('Please enter your password','error')
+      return
+    }
     setisProcessing(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -48,6 +57,15 @@ export default function Login() {
       })
       .catch((error) => {
         console.error(error);
+        toast.error('You Have Successfully Logged In ', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
         setisProcessing(false)
         // ..
       })
@@ -66,10 +84,10 @@ export default function Login() {
     <>
       <div className="auth">
         <div className="container">
-          <div className=" text-center">
+          {/* <div className=" text-center">
             <Link to="/" className="btn btn-success my-2" >
               <i class="fa-solid fa-house mx-2"></i>Home</Link>
-          </div>
+          </div> */}
           <div className="row">
             <div className="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
               <div className="card p-3 p-sm-3 p-md-3 p-lg-4">
@@ -109,14 +127,14 @@ export default function Login() {
                     </div>
                   </div>
                 </form>
-                <div className="row">
+                {/* <div className="row">
                   <div className="col">
                     <p style={{fontSize:'20px'}} className='text-center'>
                   <i class="fa-brands fa-google me-4"></i>
                   <i class="fa-brands fa-facebook-f "></i>
                     </p>
                   </div>
-                </div>
+                </div> */}
                 <div className="row">
                   <div className="col">
                     <div className="d-flex">

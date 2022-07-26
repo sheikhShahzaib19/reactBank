@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { collection, getDocs, serverTimestamp } from 'firebase/firestore/lite'
+import { collection, getDocs, serverTimestamp,where,query } from 'firebase/firestore/lite'
 import { firestore } from 'config/firebase'
 import dayjs from 'dayjs'
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
+import { AuthContext } from 'context/AuthContext'
 
 export default function Transactions() {
+  const {user}=useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [item, setItem] = useState({});
@@ -15,7 +17,8 @@ export default function Transactions() {
     setLoading(true)
     let array = [];
     try {
-      const querysnapShoot = await getDocs(collection(firestore, 'transactions'))
+      const q = query(collection(firestore, "transactions"), where("createdBy.uid", "==", user.uid));
+      const querysnapShoot = await getDocs(q);
       querysnapShoot.forEach((doc) => {
         // console.log(doc.data())
         let data = doc.data()
@@ -90,8 +93,8 @@ export default function Transactions() {
                                       {transaction.id}
                                     </button>
                                   </Td>
-                                  <Td>{timeFromObject(transaction?.dateCreated?.seconds)}</Td>
-                                  <Td>{dateFromObject(transaction?.dateCreated?.seconds)}</Td>
+                                  <Td>{timeFromObject(transaction.dateCreated.seconds)}</Td>
+                                  <Td>{dateFromObject(transaction.dateCreated.seconds)}</Td>
                                   <Td>{transaction.account.accountNum}</Td>
                                   <Td>{transaction.type}</Td>
                                   <Td>{transaction.amount}</Td>
@@ -158,7 +161,7 @@ export default function Transactions() {
                   <p>Transaction Time</p>
                 </div>
                 <div className="col-6 col-md-6">
-                  asd
+                {timeFromObject(item?.dateCreated?.seconds)}
                 </div>
               </div>
               <div className="row">

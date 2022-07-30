@@ -5,8 +5,8 @@ import { auth } from 'config/firebase';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 // import { collection, addDoc } from "firebase/firestore";
-// import { AuthContext } from 'context/AuthContext';
-// import { firestore } from 'config/firebase';
+import { AuthContext } from 'context/AuthContext';
+import { firestore } from 'config/firebase';
 
 const initialState = { email: '', password: '' }
 
@@ -16,8 +16,8 @@ export default function Login() {
   const [state, setstate] = useState(initialState);
   const [isProcessing, setisProcessing] = useState(false)
   const [isPasswordShow, setisPasswordShow] = useState(false)
-  // const {authentication,dispatch}=useContext(AuthContext)
-  // const {isAuthenticated}=authentication;
+  const {authentication,dispatch}=useContext(AuthContext)
+  const {isAuthenticated}=authentication;
 
   const handleChange = (e) => {
     setstate({ ...state, [e.target.name]: e.target.value })
@@ -57,7 +57,7 @@ export default function Login() {
       })
       .catch((error) => {
         console.error(error);
-        toast.error('You Have Successfully Logged In ', {
+        toast.error('Please enter information ', {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -84,10 +84,6 @@ export default function Login() {
     <>
       <div className="auth">
         <div className="container">
-          {/* <div className=" text-center">
-            <Link to="/" className="btn btn-success my-2" >
-              <i class="fa-solid fa-house mx-2"></i>Home</Link>
-          </div> */}
           <div className="row">
             <div className="col-12 col-md-6 offset-md-3 col-lg-6 offset-lg-3">
               <div className="card p-3 p-sm-3 p-md-3 p-lg-4">
@@ -103,14 +99,11 @@ export default function Login() {
                   <div className="row mb-3">
                     <div className="col">
                       <label className='mb-2'>Password</label>
-                      <div className="d-flex">
-                        <input type={isPasswordShow ? "text" : "password"} placeholder='Enter your password' name='password' value={state.password} className='form-control' onChange={handleChange}
-                        />
-                        <button type='button' className="input-group-text"
-                          onClick={() => { setisPasswordShow(!isPasswordShow) }}>
-                          <i className={`fa-solid fa-eye${isPasswordShow ? "" : "-slash"}`}></i>
-                        </button>
-                      </div>
+                      
+                        <div class="input-group mb-3">
+                         <input  type={isPasswordShow ? "text" : "password"} placeholder='Enter your password' name='password' value={state.password} className='form-control' onChange={handleChange}/>
+                          <span class="input-group-text" onClick={() => { setisPasswordShow(!isPasswordShow) }}><i className={`fa-solid fa-eye${isPasswordShow ? "" : "-slash"}`}></i></span>
+                       </div>
                     </div>
                   </div>
                   <div className="row mb-3">

@@ -113,9 +113,9 @@ export default function ReadAccount() {
   const handleWithdraw = async (e) => {
 
     let amountToBeWithdraw = Number(withdraw)
-
-    if (amountToBeWithdraw < 1) {
-
+      //  console.log(amountToBeWithdraw);
+    if (amountToBeWithdraw < 1 || amountToBeWithdraw>item.initialDep) {
+      // alert (item.initialDep);
       toast.error("Please Enter Correct Amount ", {
         position: "top-right",
         autoClose: 5000,

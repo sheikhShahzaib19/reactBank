@@ -91,13 +91,19 @@ position: relative;
 }
 .button1{
     line-height: 17px;
-    width: 156px !important;
+    width: 157px !important;
 }
 .setting{
     margin-top: 45px !important;
 }
+.sett{
+    margin-top: 64px !important;
+}
+.r_set{
+    margin-top: 32px !important;
+}
 .screen{
-    margin-top: 130px;   
+    margin-top: 120px;   
 }
 .screen1{
     margin-top: 27px !important;
@@ -117,20 +123,6 @@ position: relative;
     //     display: block !important;
     // }
     .logo{
-        // display: none;
         text-align: center !important;
 }
 }
-
-// @media screen and (max-width: 40em){
-//     .table-responsive thead {
-//         display: block;
-// }
-// .table-responsive td.pivoted {
-//     border: none!important;
-//     border-bottom: 1px solid #000;
-//     position: relative;
-//     padding-left: 50%!important;
-//     text-align: left!important;
-// }
-// }

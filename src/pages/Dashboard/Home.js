@@ -63,9 +63,9 @@ export default function Home() {
                 <h5 className='text-center'> <i class="fa-solid fa-user me-2"></i>Accounts</h5>
                 <hr />
                 <div className=" text-center">
-                  <Link to="/dashboard/addaccount" className="btn btn-primary btn-sm my-2 me-2" >
+                  <Link to="/dashboard/addaccount" className="btn btn-primary btn-sm my-2 me-1" >
                     <i class="fa-solid fa-plus me-2"></i>Add new Account</Link>
-                  <Link to="/dashboard/readaccount" className="btn btn-danger btn-sm my-2 " >
+                  <Link to="/dashboard/readaccount" className="btn btn-danger btn-sm my-2" >
                     <i class="fa-solid fa-eye me-2"></i>View all accounts</Link>
                 </div>
                 <hr />
@@ -97,7 +97,7 @@ export default function Home() {
                     <p class="m-0"><span class="debitAndCredit">Total Credits Rs: <span className="text-success">{amount}</span></span></p>
                   </div>
                   <div className="col-6 col-md-6">
-                    <p className="ms-5 ms-lg-5"><span class="debitAndCredit">Total Debits Rs: <span className="text-danger">{amount1}</span></span></p>
+                    <p className="ms-lg-5"><span class="debitAndCredit">Total Debits Rs: <span className="text-danger">{amount1}</span></span></p>
                   </div>
                 </div>
               </div>

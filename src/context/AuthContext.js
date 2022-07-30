@@ -19,7 +19,7 @@ const reducer = ((state, action) => {
 })
 
 export default function AuthContextProvider(props) {
-
+    // const [loader, setLoader] = useState(true)
     const [user,setUser]=useState({});
     const [state, dispatch] = useReducer(reducer, initialState);
     // console.log(state);
@@ -35,6 +35,7 @@ export default function AuthContextProvider(props) {
                 console.log('User is signed out')
                 // ...
             }
+            // setLoader(false)
         });
     }, [])
 
